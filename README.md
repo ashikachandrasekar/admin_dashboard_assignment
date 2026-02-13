@@ -23,7 +23,7 @@ Backend (Server):
 2. Run "npm install" to install the dependencies.
 3. Run "node server.js" to start the server.
    The server runs on port 5000.
-   I have included a .env file with a working MongoDB link.
+   I have included a .env.example file. Create a .env file and replace with mongodb connection string.
 
 Frontend (Client):
 1. Open the frontend folder in a new terminal.
