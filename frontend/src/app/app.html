@@ -1,0 +1,78 @@
+<div class="container mt-5" *ngIf="!islogged">
+  <div class="row justify-content-center">
+    <div class="col-md-4 card p-4 shadow-sm">
+      
+      <div *ngIf="!issignup">
+        <h2 class="text-center">login</h2>
+        <input type="text" [(ngModel)]="myname" class="form-control mt-3" placeholder="username">
+        <input type="password" [(ngModel)]="mypass" class="form-control mt-2" placeholder="password">
+        <button (click)="dologin()" class="btn btn-primary w-100 mt-3">enter</button>
+        <p class="mt-3 text-center">need account? <a (click)="issignup=true" style="cursor:pointer">register</a></p>
+      </div>
+
+      <div *ngIf="issignup">
+        <h2 class="text-center">register</h2>
+        <input type="text" [(ngModel)]="myname" class="form-control mt-3" placeholder="username">
+        <input type="password" [(ngModel)]="mypass" class="form-control mt-2" placeholder="password">
+        <select [(ngModel)]="myrole" class="form-control mt-2">
+          <option value="user">user</option>
+          <option value="admin">admin</option>
+        </select>
+        <button (click)="doregister()" class="btn btn-success w-100 mt-3">create</button>
+        <p class="mt-3 text-center"><a (click)="issignup=false" style="cursor:pointer">back to login</a></p>
+      </div>
+
+      <p class="text-center mt-2 text-info">{{ msg }}</p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="islogged">
+  <nav class="navbar navbar-dark bg-dark px-4">
+    <span class="navbar-brand">hello {{ currentname }} ({{ role }})</span>
+    <button class="btn btn-danger btn-sm" (click)="dologout()">logout</button>
+  </nav>
+
+  <div class="container mt-4">
+    <div *ngIf="role === 'admin'">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="card p-3">
+            <h5>live users status</h5>
+            <canvas id="mychart"></canvas>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="card p-3">
+            <h5>user management</h5>
+            <table class="table table-bordered mt-2">
+              <thead>
+                <tr><th>name</th><th>role</th><th>status</th><th>action</th></tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let u of allusers">
+                  <td>{{ u.username }}</td>
+                  <td>{{ u.role }}</td>
+                  <td>
+                    <span [style.color]="u.status === 'online' ? 'green' : 'red'">{{ u.status }}</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-danger" (click)="delete(u._id)">delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="role === 'user'" class="mt-5 text-center">
+      <div class="card p-5 bg-light">
+        <h1>welcome to user area</h1>
+        <p>your current status is: online</p>
+        <p>you dont have admin rights to see charts</p>
+      </div>
+    </div>
+  </div>
+</div>
